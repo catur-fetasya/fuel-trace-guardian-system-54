@@ -1,7 +1,5 @@
-
 <?php
-session_start();
-session_destroy();
-header('Location: login.php');
-exit();
+    session_start();
+    session_destroy();
+    echo "<script>location='login.php'</script>";
 ?>

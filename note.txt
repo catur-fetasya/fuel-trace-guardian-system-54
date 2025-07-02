@@ -1,0 +1,15 @@
+CREATE TABLE `tb_infaq_kesanggupan` (
+  `id_infaq_kesanggupan` int(11) NOT NULL,
+  `nis` char(12) NOT NULL,
+  `infaq_kesanggupan` int(11) NOT NULL,
+  `tgl` date NOT NULL,
+  `petugas` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+CREATE TABLE `tb_infaq_pembayaran` (
+  `id_infaq_pembayaran` int(11) NOT NULL,
+  `nis` char(12) NOT NULL,
+  `infaq_pembayaran` int(11) NOT NULL,
+  `tgl` date NOT NULL,
+  `petugas` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
