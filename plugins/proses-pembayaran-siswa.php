@@ -34,8 +34,13 @@ if($th_masuk){
     $notif_spp = "Tahun masuk siswa tidak ditemukan!";
 }
 
-// Total setoran SPP siswa
-$qSetorSpp = mysqli_query($koneksi, "SELECT SUM(setor_spp) as total FROM tb_setor_spp WHERE nis='$nis'");
+// Ambil status naik kelas siswa saat ini
+$qNaikKelas = mysqli_query($koneksi, "SELECT naik_kelas FROM tb_siswa WHERE nis='$nis'");
+$dNaikKelas = mysqli_fetch_assoc($qNaikKelas);
+$status_kelas = $dNaikKelas['naik_kelas'] ? $dNaikKelas['naik_kelas'] : 0;
+
+// Total setoran SPP siswa berdasarkan status kelas saat ini
+$qSetorSpp = mysqli_query($koneksi, "SELECT SUM(setor_spp) as total FROM tb_setor_spp WHERE nis='$nis' AND kelas_ke='$status_kelas'");
 $dSetorSpp = mysqli_fetch_assoc($qSetorSpp);
 $total_spp = $dSetorSpp['total'] ? $dSetorSpp['total'] : 0;
 
@@ -59,8 +64,8 @@ if($th_masuk){
     $notif_kegiatan = "Tahun masuk siswa tidak ditemukan!";
 }
 
-// Total setoran kegiatan siswa
-$qSetorKegiatan = mysqli_query($koneksi, "SELECT SUM(setor_kegiatan) as total FROM tb_setor_kegiatan WHERE nis='$nis'");
+// Total setoran kegiatan siswa berdasarkan status kelas saat ini
+$qSetorKegiatan = mysqli_query($koneksi, "SELECT SUM(setor_kegiatan) as total FROM tb_setor_kegiatan WHERE nis='$nis' AND kelas_ke='$status_kelas'");
 $dSetorKegiatan = mysqli_fetch_assoc($qSetorKegiatan);
 $total_kegiatan = $dSetorKegiatan['total'] ? $dSetorKegiatan['total'] : 0;
 

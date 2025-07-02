@@ -96,13 +96,18 @@ $tanggal = date("Y-m-d");
 		//membuang Rp dan Titik
 		$setor_hasil=preg_replace("/[^0-9]/", "", $setor);
 
-        $sql_simpan = "INSERT INTO tb_tabungan (nis,setor,tarik,tgl,jenis,petugas) VALUES (
+        // Ambil status naik kelas siswa
+        include "inc/kelas_helper.php";
+        $kelas_ke = getStatusNaikKelas($koneksi, $_POST['nis']);
+        
+        $sql_simpan = "INSERT INTO tb_tabungan (nis,setor,tarik,tgl,jenis,petugas,kelas_ke) VALUES (
           '".$_POST['nis']."',
           '".$setor_hasil."',
           '0',
           '".$tanggal."',
           'ST',
-          '".$data_nama."')";
+          '".$data_nama."',
+          '".$kelas_ke."')";
 		$query_simpan = mysqli_query($koneksi, $sql_simpan);
 		mysqli_close($koneksi);
 

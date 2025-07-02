@@ -61,12 +61,14 @@ $data_nama = $_SESSION["ses_nama"];
                             <th>Tanggal</th>
                             <th>Setoran Uang SPP</th>
                             <th>Petugas</th>
+                            <th>Status Kelas</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
                             $no = 1;
+                            include "inc/kelas_helper.php";
                             $sql = $koneksi->query("SELECT sk.*, s.nama_siswa FROM tb_setor_spp sk 
                                 LEFT JOIN tb_siswa s ON sk.nis = s.nis 
                                 ORDER BY sk.tgl DESC, sk.id_setor_spp DESC");
@@ -79,6 +81,11 @@ $data_nama = $_SESSION["ses_nama"];
                             <td><?php echo date("d/M/Y", strtotime($data['tgl'])); ?></td>
                             <td align="right"><?php echo rupiah($data['setor_spp']); ?></td>
                             <td><?php echo $data['petugas']; ?></td>
+                            <td>
+                                <span class="label <?php echo ($data['kelas_ke'] ?? 0) == 0 ? 'label-warning' : 'label-success'; ?>">
+                                    <?php echo getKeteranganKelas($data['kelas_ke'] ?? 0); ?>
+                                </span>
+                            </td>
                             <td>
                                 <a href="?page=edit_setor_spp&kode=<?php echo $data['id_setor_spp']; ?>" title="Ubah"
                                  class="btn btn-success btn-sm">

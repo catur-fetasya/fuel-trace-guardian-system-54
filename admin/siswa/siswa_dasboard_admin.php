@@ -208,7 +208,10 @@ $nama_siswa = $dNama ? $dNama['nama_siswa'] : '';
                     <tbody>
                         <?php
                         $no = 1;
-                        $sql = $koneksi->query("SELECT ss.*, s.nama_siswa FROM tb_setor_spp ss LEFT JOIN tb_siswa s ON ss.nis = s.nis WHERE ss.nis='$nis' ORDER BY ss.tgl DESC, ss.id_setor_spp DESC");
+                        // Ambil status naik kelas siswa
+                        include "inc/kelas_helper.php";
+                        $status_kelas = getStatusNaikKelas($koneksi, $nis);
+                        $sql = $koneksi->query("SELECT ss.*, s.nama_siswa FROM tb_setor_spp ss LEFT JOIN tb_siswa s ON ss.nis = s.nis WHERE ss.nis='$nis' AND (ss.kelas_ke='$status_kelas' OR ss.kelas_ke IS NULL) ORDER BY ss.tgl DESC, ss.id_setor_spp DESC");
                         while ($data = $sql->fetch_assoc()) {
                         ?>
                         <tr>
@@ -265,7 +268,7 @@ $nama_siswa = $dNama ? $dNama['nama_siswa'] : '';
                     <tbody>
                         <?php
                         $no = 1;
-                        $sql = $koneksi->query("SELECT sk.*, s.nama_siswa FROM tb_setor_kegiatan sk LEFT JOIN tb_siswa s ON sk.nis = s.nis WHERE sk.nis='$nis' ORDER BY sk.tgl DESC, sk.id_setor_kegiatan DESC");
+                        $sql = $koneksi->query("SELECT sk.*, s.nama_siswa FROM tb_setor_kegiatan sk LEFT JOIN tb_siswa s ON sk.nis = s.nis WHERE sk.nis='$nis' AND (sk.kelas_ke='$status_kelas' OR sk.kelas_ke IS NULL) ORDER BY sk.tgl DESC, sk.id_setor_kegiatan DESC");
                         while ($data = $sql->fetch_assoc()) {
                         ?>
                         <tr>
@@ -379,7 +382,7 @@ $nama_siswa = $dNama ? $dNama['nama_siswa'] : '';
                     <tbody>
                         <?php
                         $no = 1;
-                        $sql = $koneksi->query("SELECT * FROM tb_setor_infaq WHERE nis='$nis' ORDER BY tgl ASC, id_infaq_pembayaran ASC");
+                        $sql = $koneksi->query("SELECT * FROM tb_setor_infaq WHERE nis='$nis' AND (kelas_ke='$status_kelas' OR kelas_ke IS NULL) ORDER BY tgl ASC, id_infaq_pembayaran ASC");
                         while ($data = $sql->fetch_assoc()) {
                         ?>
                         <tr>

@@ -493,6 +493,22 @@ ALTER TABLE `tb_tabungan`
   ADD CONSTRAINT `tb_tabungan_ibfk_1` FOREIGN KEY (`nis`) REFERENCES `tb_siswa` (`nis`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
+-- Add kelas_ke column to all transaction tables for tracking class level
+ALTER TABLE tb_penarikan_spp ADD COLUMN kelas_ke INT DEFAULT 0;
+ALTER TABLE tb_penarikan_kegiatan ADD COLUMN kelas_ke INT DEFAULT 0;
+ALTER TABLE tb_setor_spp ADD COLUMN kelas_ke INT DEFAULT 0;
+ALTER TABLE tb_setor_infaq ADD COLUMN kelas_ke INT DEFAULT 0;
+ALTER TABLE tb_setor_kegiatan ADD COLUMN kelas_ke INT DEFAULT 0;
+ALTER TABLE tb_tabungan ADD COLUMN kelas_ke INT DEFAULT 0;
+
+-- Migrate existing data (all old transactions are considered as kelas_ke = 0)
+UPDATE tb_penarikan_spp SET kelas_ke = 0;
+UPDATE tb_penarikan_kegiatan SET kelas_ke = 0;
+UPDATE tb_setor_spp SET kelas_ke = 0;
+UPDATE tb_setor_infaq SET kelas_ke = 0;
+UPDATE tb_setor_kegiatan SET kelas_ke = 0;
+UPDATE tb_tabungan SET kelas_ke = 0;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

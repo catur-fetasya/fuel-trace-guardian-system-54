@@ -83,15 +83,20 @@ $tanggal = date("Y-m-d");
 </section>
 
 <?php
+include "inc/kelas_helper.php";
 
 if (isset ($_POST['Simpan'])){
     $infaq_pembayaran = preg_replace("/[^0-9]/", "", $_POST['infaq_pembayaran']);
+    
+    // Ambil status naik kelas siswa
+    $kelas_ke = getStatusNaikKelas($koneksi, $_POST['nis']);
 
-    $sql_simpan = "INSERT INTO tb_setor_infaq (nis, infaq_pembayaran, tgl, petugas) VALUES (
+    $sql_simpan = "INSERT INTO tb_setor_infaq (nis, infaq_pembayaran, tgl, petugas, kelas_ke) VALUES (
         '".$_POST['nis']."',
         '".$infaq_pembayaran."',
         '".$tanggal."',
-        '".$data_nama."')";
+        '".$data_nama."',
+        '".$kelas_ke."')";
     $query_simpan = mysqli_query($koneksi, $sql_simpan);
 
     if ($query_simpan) {

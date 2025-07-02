@@ -39,15 +39,17 @@
 							<th>JK</th>
 							<th>Kelas</th>
 							<th>Status</th>
-							<th>Th Masuk</th>
-							<th>Aksi</th>
+                            <th>Th Masuk</th>
+                            <th>Status Kelas</th>
+                            <th>Aksi</th>
 						</tr>
 					</thead>
 					<tbody>
 
 						<?php
                   $no = 1;
-                  $sql = $koneksi->query("SELECT s.nis, s.nama_siswa, s.jekel, s.status, s.th_masuk, k.kelas 
+                  include "inc/kelas_helper.php";
+                  $sql = $koneksi->query("SELECT s.nis, s.nama_siswa, s.jekel, s.status, s.th_masuk, s.naik_kelas, k.kelas 
                   from tb_siswa s inner join tb_kelas k on s.id_kelas=k.id_kelas 
                   order by kelas asc, nis asc");
                   while ($data= $sql->fetch_assoc()) {
@@ -81,20 +83,30 @@
 							</td>
 							<?php } ?>
 
-							<td>
-								<?php echo $data['th_masuk']; ?>
-							</td>
+                            <td>
+                                <?php echo $data['th_masuk']; ?>
+                            </td>
+                            
+                            <td>
+                                <span class="label <?php echo $data['naik_kelas'] == 0 ? 'label-warning' : 'label-success'; ?>">
+                                    <?php echo getKeteranganKelas($data['naik_kelas']); ?>
+                                </span>
+                            </td>
 
-							<td>
-								<a href="?page=MyApp/edit_siswa&kode=<?php echo $data['nis']; ?>" title="Ubah"
-								 class="btn btn-success">
-									<i class="glyphicon glyphicon-edit"></i>
-								</a>
-								<a href="?page=MyApp/del_siswa&kode=<?php echo $data['nis']; ?>" onclick="return confirm('Yakin Hapus Data Ini ?')"
-								 title="Hapus" class="btn btn-danger">
-									<i class="glyphicon glyphicon-trash"></i>
-									</>
-							</td>
+                            <td>
+                                <a href="?page=MyApp/edit_siswa&kode=<?php echo $data['nis']; ?>" title="Ubah"
+                                 class="btn btn-success btn-sm">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                </a>
+                                <a href="?page=MyApp/naik_kelas&nis=<?php echo $data['nis']; ?>" title="Naik Kelas"
+                                 class="btn btn-warning btn-sm">
+                                    <i class="glyphicon glyphicon-arrow-up"></i>
+                                </a>
+                                <a href="?page=MyApp/del_siswa&kode=<?php echo $data['nis']; ?>" onclick="return confirm('Yakin Hapus Data Ini ?')"
+                                 title="Hapus" class="btn btn-danger btn-sm">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                </a>
+                            </td>
 						</tr>
 						<?php
                   }

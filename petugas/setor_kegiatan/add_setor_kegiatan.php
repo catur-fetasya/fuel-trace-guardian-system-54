@@ -78,15 +78,20 @@ $tanggal = date("Y-m-d");
 </section>
 
 <?php
+include "inc/kelas_helper.php";
 
 if (isset ($_POST['Simpan'])){
     $setor_kegiatan = preg_replace("/[^0-9]/", "", $_POST['setor_kegiatan']);
+    
+    // Ambil status naik kelas siswa
+    $kelas_ke = getStatusNaikKelas($koneksi, $_POST['nis']);
 
-    $sql_simpan = "INSERT INTO tb_setor_kegiatan (nis, setor_kegiatan, tgl, petugas) VALUES (
+    $sql_simpan = "INSERT INTO tb_setor_kegiatan (nis, setor_kegiatan, tgl, petugas, kelas_ke) VALUES (
         '".$_POST['nis']."',
         '".$setor_kegiatan."',
         '".$tanggal."',
-        '".$data_nama."')";
+        '".$data_nama."',
+        '".$kelas_ke."')";
     $query_simpan = mysqli_query($koneksi, $sql_simpan);
     mysqli_close($koneksi);
 
